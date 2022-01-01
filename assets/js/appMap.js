@@ -114,12 +114,12 @@ function preloader_reboot(){
 * @property {String} features.feature.geometry.type - default value Point
 * @property {Array} features.feature.geometry.coordinates - [x, y] or [longitud, latitud]
 * @property {Array} features.feature.properties
-* @property {number} features.feature.properties.id_estab - codigo del establecimiento de salud en la base de datos
-* @property {number} features.feature.properties.id_tipo - codigo del tipo de establecimiento de salud
+* @property {number} features.feature.properties.id_estab - Health establishment code in the database
+* @property {number} features.feature.properties.id_tipo - Health establishment type code
 */
 
 /** 
-* crea la visualizacion del mapa con la libreria leafletjs
+* Create map viewing with LEAFLET Library
 * @param {Object} geojson 
 */
 function create_map(geojson){
@@ -228,12 +228,19 @@ function create_map(geojson){
 		url_raes = 'assets/svg/raes.svg',
 		url_racs = 'assets/svg/racs.svg';
 		
+	
+	/** @const {Array} - HTML element [i, button]*/
 	const btn_close_offcanvas = [
 		document.querySelector('i[data-bs-dismiss="offcanvas"]'),
 		document.querySelector('button[data-bs-dismiss="offcanvas"]')
 	];
 	
 	for(var btn_elem = 0; btn_elem < btn_close_offcanvas.length; btn_elem++){
+		/**
+		* Add class preloader when closing OffCanvas section
+		* @type {HTMLElement} - [i|button]#btn_close_offcanvas[i]
+		* @listens document#[i|button]
+		*/
 		btn_close_offcanvas[btn_elem].addEventListener(
 			'click', preloader_reboot, false
 		);
@@ -389,8 +396,6 @@ function create_map(geojson){
 	define query layer ASIC
 	*/
 	
-	//'#FC4E2A'
-	
 	function consultToFeature(e){
 		var cod_asic = e.target.feature.properties.codigo,
 			sidebar = document.getElementById('sidebar_offcanvas'),
@@ -409,6 +414,13 @@ function create_map(geojson){
 				url, headerSidebar, datos
 			);
 	}
+	
+	/**
+	*Create GEOJSON layer to consult information in database
+	*@param {String} colorName - Hexadecimal color code
+	*@param {String} colorSelectionPolygon - Hexadecimal color code
+	*@returns {Object} geojson - Object L.geoJson of the ASIC layer 
+	*/
 	
 	function createLayerPolygonSearch(colorName, colorSelectionPolygon){
 		
@@ -452,7 +464,12 @@ function create_map(geojson){
 			onEachFeature: onEachFeatureConsult
 		});
 	}
-	
+	/**
+	*Create GEOJSON layer
+	*@param {String} colorName - Hexadecimal color code
+	*@param {String} colorSelectionPolygon - Hexadecimal color code
+	*@returns {Object} geojson - Object L.geoJson of the ASIC layer 
+	*/
 	function createLayerPolygonSimple(colorName){
 		return L.geoJson(geojson_asic, {
 			style: function (feature) {
@@ -559,12 +576,26 @@ function create_map(geojson){
 		createDivLegend
 	);
 	
-	
+	function verifyCoordinateLimits(leafletObjectLatLng){
+		var lat= leafletObjectLatLng.lat,
+			lng = leafletObjectLatLng.lng;
+			
+		var limitLat = lat >= 8.36808 && lat <= 11.85079,
+			limitLng = lng >= -73.37939 && lng <= -70.66714;
+			
+		if(limitLat == true && limitLng == true){
+			return true;
+		}else{
+			return false;
+		}
+	}
 	
 	function activeGeolocation(e){
 		e.preventDefault();
+		
 		var btn = e.target,
 			span = document.getElementById('icon_geolocation');
+			
 		btn.classList.add('disabled');
 		span.classList.remove('fas');
 		span.classList.remove('fa-map-marker-alt');
@@ -586,86 +617,106 @@ function create_map(geojson){
 		
 		function onLocationFound(e){
 			var radius = e.accuracy,
-				coordinates_location = e.latlng,
-				bounds_location = e.bounds;
+				coordinates_location = e.latlng;
+				
+			verifyLimitPoint = verifyCoordinateLimits(coordinates_location);
 			
 			removeStyleSpanGeolocation();
 			close_navbars();
 			
-			var colorMarker = 'blue',
-				nameIcon = 'user';
-			
-			if (radius <= 10){
-				class_alert = 'alert-primary';
-				msj = `<i class="fas fa-check-circle"></i>La geolocalización de tu dispositivo 
-				fue satisfactoria, con muy buena precisión.`;
-			}else if (radius > 10 && radius <= 30){
-				class_alert = 'alert-warning';
-				msj = `<i class="fas fa-exclamation-triangle"></i>El cálculo del posicionamiento del dispositivo, 
-				no es el optimo, pudiera estar a varios metros de tu ubicación real.`;
-			}else{
-				colorMarker = 'red';
-				nameIcon = 'user-times';
-				class_alert = 'alert-danger';
-				radius = Math.round(radius);
-				msj = `<i class="fas fa-exclamation-circle"></i>La incertidumbre del posicionamiento del 
-				dispositivo es muy alta, pudiendo estar mínimo a ${radius} metros de tu ubicación real.`;
-			}
-			
-			var blueMarker = L.AwesomeMarkers.icon({
-				icon: nameIcon,
-				prefix : 'fa',
-				markerColor: colorMarker
-			});
-
-			var markerPoint = L.marker(coordinates_location, {icon: blueMarker}),
-				alert_msj = `<div class="alert ${class_alert} geoLocationPopup" role="alert">
-				  ${msj}
+			if (verifyLimitPoint == false){
+				
+				sidebar = document.getElementById('sidebar_offcanvas'),
+				elemento_offcanvas = new bootstrap.Offcanvas(sidebar),
+				headerSidebar = `<i class='fas fa-exclamation-triangle'></i> Notificación`,
+				contentMsg = `<div class="alert alert-danger" role="alert">
+				  ¡Disculpe! Usted se encuentra 
+				  fuera del área de influencia del estado Zulia – Venezuela.
 				</div>`;
-			
-			markerPoint.bindPopup(alert_msj);
-			
-			var circle_accuracy = L.circle(e.latlng, radius, {color: colorMarker});
-			
-			map.addLayer(markerPoint);
-			map.addLayer(circle_accuracy);
-			
-			var remove_location = document.getElementById('remove_location'),
-				zoom_location = document.getElementById('zoom_location');
+				elemento_offcanvas.show();
 				
-			remove_location.classList.remove('disabled');
-			zoom_location.classList.remove('disabled');
+				addInformationOffCanvas(headerSidebar, contentMsg);
+				
+			}else{
+				
+				var bounds_location = e.bounds;
 			
-			function getZoomLocation(e){
-				e.preventDefault();
-				close_navbars();
-				map.fitBounds(bounds_location);
+				var colorMarker = 'blue',
+					nameIcon = 'user';
+				
+				if (radius <= 10){
+					class_alert = 'alert-primary';
+					msj = `<i class="fas fa-check-circle"></i>La geolocalización de tu dispositivo 
+					fue satisfactoria, con muy buena precisión.`;
+				}else if (radius > 10 && radius <= 30){
+					class_alert = 'alert-warning';
+					msj = `<i class="fas fa-exclamation-triangle"></i>El cálculo del posicionamiento del dispositivo, 
+					no es el optimo, pudiera estar a varios metros de tu ubicación real.`;
+				}else{
+					colorMarker = 'red';
+					nameIcon = 'user-times';
+					class_alert = 'alert-danger';
+					radius = Math.round(radius);
+					msj = `<i class="fas fa-exclamation-circle"></i>La incertidumbre del posicionamiento del 
+					dispositivo es muy alta, pudiendo estar mínimo a ${radius} metros de tu ubicación real.`;
+				}
+				
+				var blueMarker = L.AwesomeMarkers.icon({
+					icon: nameIcon,
+					prefix : 'fa',
+					markerColor: colorMarker
+				});
+
+				var markerPoint = L.marker(coordinates_location, {icon: blueMarker}),
+					alert_msj = `<div class="alert ${class_alert} geoLocationPopup" role="alert">
+					  ${msj}
+					</div>`;
+				
+				markerPoint.bindPopup(alert_msj);
+				
+				var circle_accuracy = L.circle(e.latlng, radius, {color: colorMarker});
+				
+				map.addLayer(markerPoint);
+				map.addLayer(circle_accuracy);
+				
+				var remove_location = document.getElementById('remove_location'),
+					zoom_location = document.getElementById('zoom_location');
+					
+				remove_location.classList.remove('disabled');
+				zoom_location.classList.remove('disabled');
+				
+				function getZoomLocation(e){
+					e.preventDefault();
+					close_navbars();
+					map.fitBounds(bounds_location);
+				}
+				
+				function removeLayerLocation(e){
+					e.preventDefault();
+					var btn_remove = e.target;
+					btn_remove.classList.add('disabled');
+					
+					close_navbars();
+					zoom_location.classList.add('disabled');
+					map.removeLayer(markerPoint);
+					map.removeLayer(circle_accuracy);
+					
+					btn_remove.removeEventListener('click', removeLayerLocation, false);
+					zoom_location.removeEventListener('click', getZoomLocation, false);
+					
+					setTimeout(function(){
+						btn.classList.remove('disabled');
+					}, 2000)
+					
+				}
+				
+				zoom_location.addEventListener('click', 
+					getZoomLocation, false);
+				
+				remove_location.addEventListener('click', 
+					removeLayerLocation, false);
+				
 			}
-			
-			function removeLayerLocation(e){
-				e.preventDefault();
-				var btn_remove = e.target;
-				btn_remove.classList.add('disabled');
-				
-				close_navbars();
-				zoom_location.classList.add('disabled');
-				map.removeLayer(markerPoint);
-				map.removeLayer(circle_accuracy);
-				
-				btn_remove.removeEventListener('click', removeLayerLocation, false);
-				zoom_location.removeEventListener('click', getZoomLocation, false);
-				
-				setTimeout(function(){
-					btn.classList.remove('disabled');
-				}, 2000)
-				
-			}
-			
-			zoom_location.addEventListener('click', 
-				getZoomLocation, false);
-			
-			remove_location.addEventListener('click', 
-				removeLayerLocation, false);
 		}
 		
 		function onLocationError(e){

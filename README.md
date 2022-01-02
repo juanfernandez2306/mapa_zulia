@@ -5,3 +5,7 @@ para crear aplicaciones de mapas web._
 ## Overview
 
 ![Img overview project](assets/gif/mapa_zulia.gif)
+
+## Framework
+- Bootstrap 5
+- Leaflet JS

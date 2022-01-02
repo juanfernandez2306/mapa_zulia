@@ -227,6 +227,14 @@ function createDivLegend(contentHeader){
 	})
 }
 
+/**
+*load content and header of OffCanvas section
+*@param {String} elementIDtarget - html target identifier name ID
+*@param {String} contentHeader
+*@param {String} contentBody
+*@param {function} callback
+*/
+
 function loadInformationButtonNavBars(elementIDtarget, 
 contentHeader, contentBody, callback = null){
 	

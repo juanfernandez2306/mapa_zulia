@@ -576,6 +576,13 @@ function create_map(geojson){
 		createDivLegend
 	);
 	
+	/**
+	*check if the coordinates are within 
+	*the area of influence of the state of Zulia - Venezuela
+	*@param {Object} leafletObjectLatLng - Object L.latLng of leaflet
+	*@returns {Boolean}
+	*/
+	
 	function verifyCoordinateLimits(leafletObjectLatLng){
 		var lat= leafletObjectLatLng.lat,
 			lng = leafletObjectLatLng.lng;
@@ -732,7 +739,7 @@ function create_map(geojson){
 	}
 	
 	/**
-	*  
+	*activate geolocation function
 	* @type {HTMLElement} - a#geolocalizacion
 	* @listens document#click - start geo-localization process in leafletjs
 	*/
@@ -767,9 +774,9 @@ function create_map(geojson){
 	window.addEventListener('offline', checkStatusConect, false);
 	
 	/**
-	*  
+	* define ASIC layer style according to basemap type and query type
 	* @type {HTMLElement} - input[type="radio"].leaflet-control-layers-selector
-	* @listens document#click - 
+	* @listens document#click
 	*/
 	
 	const inputControlLayerBase = 'input[type="radio"].leaflet-control-layers-selector';

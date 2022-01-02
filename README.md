@@ -17,8 +17,8 @@ Clonar proyecto
 ```
 descargar fotos de los establecimientos de salud y descomprimir en la carpeta del proyecto
 ```
-	url https://drive.google.com/file/d/1qUCd3K79VdLJchaMjfwF80DDyUfmrFKE/view?usp=sharing
+	https://drive.google.com/file/d/1qUCd3K79VdLJchaMjfwF80DDyUfmrFKE/view?usp=sharing
 ```
-Crear una base de datos MySQL con codificación UTF-8
-Cargar script sql/bd.sql
-Cargar script sql/establecimientos_salud.sql
+- Crear una base de datos MySQL con codificación UTF-8
+- Cargar script sql/bd.sql
+- Cargar script sql/establecimientos_salud.sql

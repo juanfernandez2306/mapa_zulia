@@ -17,7 +17,9 @@ const LINK_TWITTER = 'https://twitter.com/juancho_2306',
 	<a href="https://getbootstrap.com/docs/5.0/getting-started/introduction/" target="_blank">Bootstrap 5</a>
 	y 
 	<a href="https://leafletjs.com/" target="_blank">Leaflet</a>, 
-	código abierto con licencia MIT, disponible en GitHub.</p>
+	código abierto con licencia MIT, disponible en 
+	<a href="https://github.com/juanfernandez2306/mapa_zulia"
+	target="_blank">GitHub</a>.</p>
 	<div class="card">
 	  <div class="card-body">
 		<h5 class="card-title">Descripción</h5>

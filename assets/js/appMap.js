@@ -351,13 +351,14 @@ function create_map(geojson){
 		maxZoom: 19,
 		type:'osm'
 	}).addTo(map);
-		
-	var BING_KEY = 'AuhiCJHlGzhg93IqUH_oCpl_-ZUrIE6SPftlyGYUvr9Amx5nzA-WqGcPquyFZl4L',
-		bingLayer = L.tileLayer.bing(BING_KEY);
+	
+	var hybridMutant = L.gridLayer.googleMutant({
+		type:'hybrid'
+	});
 		
 	baseLayers = {
 		"base Cartografica": osm,
-		"Imagen Satelital": bingLayer
+		"Imagen Satelital": hybridMutant
 	};
 		
 	control = L.control.layers(baseLayers, null, 

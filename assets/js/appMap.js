@@ -138,7 +138,8 @@ function create_map(geojson){
 		center: coordenadas_iniciales,
 		maxZoom: 18,
 		minZoom: 7,
-		zoom: zoom_inicial
+		zoom: zoom_inicial,
+		gestureHandling: true
 	});
 	
 	L.control.scale({imperial: false}).addTo(map);

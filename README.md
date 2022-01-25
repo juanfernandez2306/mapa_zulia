@@ -1,4 +1,4 @@
-# Mapa Zulia
+# Mapa Zulia :earth_americas:
 _Plantilla  de diseño web adaptable  (del ingles <i>responsive web design</i>) 
 para crear aplicaciones de mapas web._
 
@@ -6,11 +6,11 @@ para crear aplicaciones de mapas web._
 
 ![Img overview project](assets/gif/mapa_zulia.gif)
 
-## Framework
+## Framework :toolbox:
 - Bootstrap 5
 - Leaflet JS
 
-## Instalación
+## Instalación :rocket:
 Clonar proyecto
 ```
 	git clone https://github.com/juanfernandez2306/mapa_zulia.git
@@ -25,7 +25,7 @@ descargar fotos de los establecimientos de salud y descomprimir en la carpeta de
 - Cargar script sql/establecimientos_salud.sql
 - De ser necesario modificar parametros de conexión bd en assets/php/funciones.php
 
-## Contactos
+## Contactos :bust_in_silhouette:
 - Twitter : https://twitter.com/juancho_2306
 
 ## Licencia

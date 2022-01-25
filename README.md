@@ -1,8 +1,8 @@
 # Mapa Zulia
-_Plantilla  de diseÒo web adaptable  (del ingles <i>responsive web design</i>) 
+_Plantilla  de dise√±o web adaptable  (del ingles <i>responsive web design</i>) 
 para crear aplicaciones de mapas web._
 
-## Overview
+## Overview :eye_speech_bubble:
 
 ![Img overview project](assets/gif/mapa_zulia.gif)
 
@@ -10,7 +10,7 @@ para crear aplicaciones de mapas web._
 - Bootstrap 5
 - Leaflet JS
 
-## InstalaciÛn
+## Instalaci√≥n
 Clonar proyecto
 ```
 	git clone https://github.com/juanfernandez2306/mapa_zulia.git
@@ -19,14 +19,14 @@ descargar fotos de los establecimientos de salud y descomprimir en la carpeta de
 ```
 	https://drive.google.com/file/d/1qUCd3K79VdLJchaMjfwF80DDyUfmrFKE/view?usp=sharing
 ```
-- Crear una base de datos MySQL con codificaciÛn UTF-8
+- Crear una base de datos MySQL con codificaci√≥n UTF-8
 - Nombre de la base de datos <i>mapa_zulia</i>
 - Cargar script sql/bd.sql
 - Cargar script sql/establecimientos_salud.sql
-- De ser necesario modificar parametros de conexiÛn bd en assets/php/funciones.php
+- De ser necesario modificar parametros de conexi√≥n bd en assets/php/funciones.php
 
 ## Contactos
 - Twitter : https://twitter.com/juancho_2306
 
 ## Licencia
-Este proyecto est· bajo la Licencia [MIT](/LICENSE) - mira el archivo [LICENSE.md](LICENSE.md) para detalles
+Este proyecto est√° bajo la Licencia [MIT](/LICENSE) - mira el archivo [LICENSE.md](LICENSE.md) para detalles
